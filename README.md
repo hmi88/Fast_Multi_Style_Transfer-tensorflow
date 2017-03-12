@@ -43,6 +43,8 @@ Train new gamma, beta.
 ## Usage
 Recommand to download project files [here (src, model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
+"-scw, --style_control_weights" is style control argument. If you want single style then set argument like "1 0 0 ... 0 0", "0 0 0 ... 0 0 1". If you want multi style then set argument like "0.5 0.5 0 ... 0 0", "0.3 0.3 0.3 ... 0 0", "1 1 1 1 ... 1 1 1" 
+
 ### Train
 
 From Scratch
