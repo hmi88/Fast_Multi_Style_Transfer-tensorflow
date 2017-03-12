@@ -19,13 +19,12 @@ The key of this paper is Conditional instance normalization.
 <img src="result/conditional_instance_norm.jpg" />
 </p>
 
-Instance normalization is similar with batch normalization,
-but it doesn't accumulate mean(mu), variance(alpha).
-Conditional instance normalization have N scale(gamma) and N shift(beta). N means style number.
-This mean when you add new style, you just train new gamma and new beta.
-See the below results.
+Instance normalization is similar with batch normalization,but it doesn't accumulate mean(mu), variance(alpha). \
+Conditional instance normalization have N scale(gamma) and N shift(beta). N means style number. \
+This mean when you add new style, you just train new gamma and new beta.\
+See the below results. \
 
-From Scratch.
+From Scratch. \
 Train weight, bias, gamma, beta
 
 <p>
@@ -33,7 +32,7 @@ Train weight, bias, gamma, beta
 </p>
 (40000 iteration)
 
-Fine-Tuned. Gradually change to new style
+Fine-Tuned. Gradually change to new style. \
 Train new gamma, beta.
 
 <p>
@@ -48,22 +47,30 @@ example command lines are below and train_style.sh, test_style.sh
 ### Train
 
 From Scratch
-> python main.py -f 1 -gn 0 -p MST -n 5 -b 16 -tsd images/test -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -sti images/style_crop/0_udnie.jpg
-
+  python main.py -f 1 -gn 0 -p MST -n 5 -b 16 \
+  -tsd images/test \ 
+  -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
+  -sti images/style_crop/0_udnie.jpg
 
 Fine-Tuned
-> python main.py -f 1 -gn 0 -p MST -n 1 -b 16 -tsd images/test -scw 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -sti images/style_crop/1_la_muse.jpg 
-> python main.py -f 1 -gn 0 -p MST -n 1 -b 16 -tsd images/test -scw 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 -sti images/style_crop/10_Yellow_sunset.jpg
+  python main.py -f 1 -gn 0 -p MST -n 1 -b 16 \
+  -tsd images/test \
+  -scw 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
+  -sti images/style_crop/1_la_muse.jpg 
 
 
 ### Test
 Single style
-> python main.py -f 0 -gn 0 -p MST -tsd images/test -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-> python main.py -f 0 -gn 0 -p MST -tsd images/test -scw 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+  python main.py -f 0 -gn 0 -p MST \ 
+  -tsd images/test \ 
+  -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 Multi Style
-> python main.py -f 0 -gn 0 -p MST -tsd images/test -scw 0.5 0.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-> python main.py -f 0 -gn 0 -p MST -tsd images/test -scw 0.4 0.3 0.2 0.1 0 0 0 0 0 0 0 0 0 0 0 0
+
+  python main.py -f 0 -gn 0 -p MST \
+  -tsd images/test \
+  -scw 0.5 0.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 
 
