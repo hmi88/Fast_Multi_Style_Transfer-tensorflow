@@ -2,7 +2,9 @@
 Implementation of Google Brain's [A Learned Representation For Artistic Style](https://arxiv.org/pdf/1610.07629v2.pdf) in Tensorflow.
 You can mix various type of style image using just One Model and it's still Fast!
 
+<p>
 <img src="result/result.jpg" width="1000" height="550" />
+</p>
 Figure1. Using one model and making multi style transfer image. Center image is mixed with 4 style
 
 This paper is next version of [Perceptual Losses for Real-Time Style Transfer and Super-Resolution](https://arxiv.org/abs/1603.08155)
@@ -12,7 +14,10 @@ These papers are fast and nice result, but one model make only one style image.
 
 ## Implementation Details
 The key of this paper is Conditional instance normalization.
-![conditional_instance_norm](result/conditional_instance_norm.jpg)
+
+<p>
+<img src="result/conditional_instance_norm.jpg" />
+</p>
 
 Instance normalization is similar with batch normalization,
 but it doesn't accumulate mean(mu), variance(alpha).
@@ -22,13 +27,19 @@ See the below results.
 
 From Scratch.
 Train weight, bias, gamma, beta
-![style01_01](result/style01_01.gif)
+
+<p>
+<img src="result/style01_01.gif" />
+</p>
 (40000 iteration)
 
 Fine-Tuned. Gradually change to new style
 Train new gamma, beta.
-![style02_01](result/style02_01.gif)
-![style03_01](result/style03_01.gif)
+
+<p>
+<img src="result/style02_01.gif" />
+<img src="result/style03_01.gif" />
+</p>
 (4000 iteration, 1/10 scratch)
 
 
