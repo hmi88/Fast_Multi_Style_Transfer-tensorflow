@@ -51,7 +51,7 @@ From Scratch
 
     python main.py -f 1 -gn 0 -p MST -n 5 -b 16 \
       -tsd images/test -sti images/style_crop/0_udnie.jpg \
-      -ctd "COCO dataset location" ## (example) -ctd /mnt/cloud/Data/COCO/train2014 \
+      -ctd "COCO dataset location" ## (example) -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
       
   
