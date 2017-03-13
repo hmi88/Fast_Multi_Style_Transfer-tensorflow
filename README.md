@@ -12,63 +12,6 @@ and [Instance Normalization: The Missing Ingredient for Fast Stylization](https:
 These papers are fast and nice result, but one model make only one style image.
 
 
-## Implementation Details
-#### Conditional instance normalization
-
-The key of this paper is Conditional instance normalization.
-
-<p>
-<img src="result/conditional_instance_norm.jpg" />
-</p>
-
-Instance normalization is similar with batch normalization, but it doesn't accumulate mean(mu), variance(alpha). 
-Conditional instance normalization have N scale(gamma) and N shift(beta). N is number of style images.
-This means when you add new style, you just train new gamma and new beta.
-See the below code.
-
-    def conditional_instance_norm:
-        ...
-        shift = []
-        scale = []
-
-        for i in range(len(style_control)):
-            with tf.variable_scope('{0}'.format(i) + '_style'):
-                shift.append(tf.get_variable('shift', shape=var_shape, initializer=tf.constant_initializer(0.)))
-                scale.append(tf.get_variable('scale', shape=var_shape, initializer=tf.constant_initializer(1.)))
-        ...
-        
-        idx = [i for i, x in enumerate(style_control) if not x == 0]
-        style_scale = reduce(tf.add, [scale[i]*style_control[i] for i in idx]) / sum(style_control)
-        style_shift = reduce(tf.add, [shift[i]*style_control[i] for i in idx]) / sum(style_control)
-        output = style_scale * normalized + style_shift
-
-
-#### Upsampling
-Paper's upsampling method is "Image_resize-Conv". But I use ["Deconv-Pooling"](https://arxiv.org/abs/1611.04994)
-    
-    def mst_net:
-        ...
-        x = conv_tranpose_layer(x, 64, 3, 2, style_control=style_control, name='up_conv1')
-        x = pooling(x)
-        x = conv_tranpose_layer(x, 32, 3, 2, style_control=style_control, name='up_conv2')
-        x = pooling(x)
-        ...
-        
-#### Style Control Weight (SCW)
-"-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16"
-
-If you want single style
-
-    style1   -scw "1 0 0 ... 0 0 0"
-    style16  -scw "0 0 0 ... 0 0 1" 
-
-If you want multi style
-
-    0.5 * style1 + 0.5 * style2                   -scw "0.5 0.5 0 ... 0 0 0"      or "1 1 0 ... 0 0 0"
-    0.2 * style1 + 0.3 * style2 + 0.4 * style3    -scw "0.2 0.3 0.4 ... 0 0 0"    or "2 3 4 ... 0 0 0"
-    1/16 * (style1 ~ style16)                     -scw "0.63 0.63 ... 0.63 0.63"  or "1 1 1 ... 1 1 1"
-
-
 ## Usage
 Recommand to download [project files here (model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
@@ -129,6 +72,63 @@ Multi Style
       -tsd images/test \
       -scw 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0  \
       
+
+## Implementation Details
+#### Conditional instance normalization
+
+The key of this paper is Conditional instance normalization.
+
+<p>
+<img src="result/conditional_instance_norm.jpg" />
+</p>
+
+Instance normalization is similar with batch normalization, but it doesn't accumulate mean(mu), variance(alpha). 
+Conditional instance normalization have N scale(gamma) and N shift(beta). N is number of style images.
+This means when you add new style, you just train new gamma and new beta.
+See the below code.
+
+    def conditional_instance_norm:
+        ...
+        shift = []
+        scale = []
+
+        for i in range(len(style_control)):
+            with tf.variable_scope('{0}'.format(i) + '_style'):
+                shift.append(tf.get_variable('shift', shape=var_shape, initializer=tf.constant_initializer(0.)))
+                scale.append(tf.get_variable('scale', shape=var_shape, initializer=tf.constant_initializer(1.)))
+        ...
+        
+        idx = [i for i, x in enumerate(style_control) if not x == 0]
+        style_scale = reduce(tf.add, [scale[i]*style_control[i] for i in idx]) / sum(style_control)
+        style_shift = reduce(tf.add, [shift[i]*style_control[i] for i in idx]) / sum(style_control)
+        output = style_scale * normalized + style_shift
+
+
+#### Upsampling
+Paper's upsampling method is "Image_resize-Conv". But I use ["Deconv-Pooling"](https://arxiv.org/abs/1611.04994)
+    
+    def mst_net:
+        ...
+        x = conv_tranpose_layer(x, 64, 3, 2, style_control=style_control, name='up_conv1')
+        x = pooling(x)
+        x = conv_tranpose_layer(x, 32, 3, 2, style_control=style_control, name='up_conv2')
+        x = pooling(x)
+        ...
+        
+#### Style Control Weight (SCW)
+"-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16"
+
+If you want single style
+
+    style1   -scw "1 0 0 ... 0 0 0"
+    style16  -scw "0 0 0 ... 0 0 1" 
+
+If you want multi style
+
+    0.5 * style1 + 0.5 * style2                   -scw "0.5 0.5 0 ... 0 0 0"      or "1 1 0 ... 0 0 0"
+    0.2 * style1 + 0.3 * style2 + 0.4 * style3    -scw "0.2 0.3 0.4 ... 0 0 0"    or "2 3 4 ... 0 0 0"
+    1/16 * (style1 ~ style16)                     -scw "0.63 0.63 ... 0.63 0.63"  or "1 1 1 ... 1 1 1"
+
 
 
 ## Requirements
