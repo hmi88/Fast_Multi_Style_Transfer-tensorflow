@@ -92,12 +92,11 @@ Fine-Tuned
       -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
       
-if you want 100-style model change main.py
+if you want 32-style model change main.py
 
-    parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16 --> 100)
-        
+    1. parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16 --> 32)
+    2. -scw 1 2 3 ... 30 31 32
 
-  
 ### Test
 Single style
 
