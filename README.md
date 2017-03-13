@@ -15,6 +15,21 @@ These papers are fast and nice result, but one model make only one style image.
 ## Usage
 Recommand to download [project files here (model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
+#### Style Control Weight (SCW)
+"-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16"
+
+If you want single style
+
+    style1   -scw "1 0 0 ... 0 0 0"
+    style16  -scw "0 0 0 ... 0 0 1" 
+
+If you want multi style
+
+    0.5 * style1 + 0.5 * style2                   -scw "0.5 0.5 0 ... 0 0 0"      or "1 1 0 ... 0 0 0"
+    0.2 * style1 + 0.3 * style2 + 0.4 * style3    -scw "0.2 0.3 0.4 ... 0 0 0"    or "2 3 4 ... 0 0 0"
+    1/16 * (style1 ~ style16)                     -scw "0.63 0.63 ... 0.63 0.63"  or "1 1 1 ... 1 1 1"
+
+
 ### Train
 #### From Scratch.
 
@@ -115,21 +130,6 @@ Paper's upsampling method is "Image_resize-Conv". But I use ["Deconv-Pooling"](h
         x = pooling(x)
         ...
         
-#### Style Control Weight (SCW)
-"-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16"
-
-If you want single style
-
-    style1   -scw "1 0 0 ... 0 0 0"
-    style16  -scw "0 0 0 ... 0 0 1" 
-
-If you want multi style
-
-    0.5 * style1 + 0.5 * style2                   -scw "0.5 0.5 0 ... 0 0 0"      or "1 1 0 ... 0 0 0"
-    0.2 * style1 + 0.3 * style2 + 0.4 * style3    -scw "0.2 0.3 0.4 ... 0 0 0"    or "2 3 4 ... 0 0 0"
-    1/16 * (style1 ~ style16)                     -scw "0.63 0.63 ... 0.63 0.63"  or "1 1 1 ... 1 1 1"
-
-
 
 ## Requirements
 - TensorFlow 1.0.0
