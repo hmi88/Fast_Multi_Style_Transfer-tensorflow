@@ -43,7 +43,7 @@ Train weight, bias, gamma_0, beta_0. Need 40000 iteration (10 epoch)
 <img src="result/style01_01.gif" />
 </p>
 
-#### Fine-Tuned. 
+#### Fine-Tuned. (after train 'from scratch' or download trained model)
 
     python main.py -f 1 -gn 0 -p MST -n 1 -b 16 \
       -tsd images/test -sti images/style_crop/1_la_muse.jpg \
