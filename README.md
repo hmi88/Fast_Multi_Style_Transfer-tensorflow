@@ -36,6 +36,9 @@ Train new gamma, beta.
 <p>
 <img src="result/style02_01.gif" />
 <img src="result/style03_01.gif" />
+<img src="result/style04_01.gif" />
+<img src="result/style06_01.gif" />
+<img src="result/style11_01.gif" />
 </p>
 (4000 iteration, 1/10 scratch)
 
