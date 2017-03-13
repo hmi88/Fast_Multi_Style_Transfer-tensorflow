@@ -1,6 +1,6 @@
 # Fast Multi Style Transfer
 Implementation of Google Brain's [A Learned Representation For Artistic Style](https://arxiv.org/pdf/1610.07629v2.pdf) in Tensorflow.
-You can mix various type of style image using just One Model and it's still Fast!
+You can mix various type of style images using just One Model and it's still Fast!
 
 <p>
 <img src="result/result.jpg" width="1000" height="550" />
@@ -21,9 +21,9 @@ The key of this paper is Conditional instance normalization.
 <img src="result/conditional_instance_norm.jpg" />
 </p>
 
-Instance normalization is similar with batch normalization,but it doesn't accumulate mean(mu), variance(alpha).
-Conditional instance normalization have N scale(gamma) and N shift(beta). N means style number.
-This mean when you add new style, you just train new gamma and new beta.
+Instance normalization is similar with batch normalization, but it doesn't accumulate mean(mu), variance(alpha). 
+Conditional instance normalization have N scale(gamma) and N shift(beta). N is number of style images.
+This means when you add new style, you just train new gamma and new beta.
 See the below code.
 
     def conditional_instance_norm:
@@ -53,24 +53,24 @@ Paper's upsampling method is "Image_resize-Conv". But I use ["Deconv-Pooling"](h
         x = conv_tranpose_layer(x, 32, 3, 2, style_control=style_control, name='up_conv2')
         x = pooling(x)
         ...
+        
 #### Style Control Weight (SCW)
-"-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16 ". 
+"-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16"
 
 If you want single style
 
-    example)
     style1   -scw "1 0 0 ... 0 0 0"
     style16  -scw "0 0 0 ... 0 0 1" 
 
 If you want multi style
 
-    example)
-    0.5 * (style1 + style2)                     -scw "0.5 0.5 0 ... 0 0 0" or "1 1 0 ... 0 0 0"
-    0.2 * style1 + 0.3 * style2 + 0.4 * style3  -scw "0.2 0.3 0.4 ... 0 0 0" or "2 3 4 ... 0 0 0"
-    1/16 * (style1 ~ style16)                   -scw "1 1 1 ... 1 1 1"
+    0.5 * style1 + 0.5 * style2                   -scw "0.5 0.5 0 ... 0 0 0"      or "1 1 0 ... 0 0 0"
+    0.2 * style1 + 0.3 * style2 + 0.4 * style3    -scw "0.2 0.3 0.4 ... 0 0 0"    or "2 3 4 ... 0 0 0"
+    1/16 * (style1 ~ style16)                     -scw "0.63 0.63 ... 0.63 0.63"  or "1 1 1 ... 1 1 1"
+
 
 ## Usage
-Recommand to download project files [here (src, model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
+Recommand to download [project files here (model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
 ### Train
 #### From Scratch.
@@ -108,6 +108,7 @@ Train only new gamma, beta. You can see that images gradually change to new styl
 <img src="result/style11_01.gif" />
 </p>
 (Just 4000 iteration, 1/10 scratch)
+
 
 if you want 32-style model change main.py
 
