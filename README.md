@@ -64,6 +64,8 @@ Train only new gamma, beta. You can see that images gradually change to new styl
 <img src="result/style09_01.gif" />
 <img src="result/style10_01.gif" />
 <img src="result/style11_01.gif" />
+<img src="result/style12_01.gif" />
+<img src="result/style13_01.gif" />
 </p>
 (Just 4000 iteration, 1/10 scratch)
 
