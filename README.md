@@ -15,6 +15,35 @@ These papers are fast and nice result, but one model make only one style image.
 ## Usage
 Recommand to download [project files here (model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
+#### Project folder tree
+    Working Directory
+    ├── MST
+    │   └── models
+    │       ├── checkpoint
+    │       ├── xxx.index
+    │       ├── xxx.data
+    |       └── xxxx.meta
+    │   ├── test_result
+    │   └── train_result
+    ├── images
+    │       ├── style
+    │       ├── style_crop
+    │       ├── test
+    │       └── crop.py
+    ├── src
+    │       ├── __init__.py
+    │       ├── functions.py
+    │       ├── layers.py
+    │       ├── multi_style_transfer.py
+    │       ├── op.py
+    │       ├── vgg19.mat
+    │       └── vgg19.py
+    ├── main.py
+    ├── test_style.sh
+    └── train_style.sh
+    
+    
+
 #### Style Control Weight (SCW)
 "-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16"
 
@@ -83,7 +112,7 @@ Single style
     ex) style9
     python main.py -f 0 -gn 0 -p MST \
       -tsd images/test \
-      -scw 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 
+      -scw 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
 
 <p>
 <img src="result/tubingen_9.jpg", width="213"/>
@@ -93,7 +122,7 @@ Single style
     ex) style10
     python main.py -f 0 -gn 0 -p MST \
       -tsd images/test \
-      -scw 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 
+      -scw 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0
 
 <p>
 <img src="result/tubingen_10.jpg", width="213"/>
@@ -105,7 +134,7 @@ Multi Style
     ex) 0.5*style9 + 0.5*style10
     python main.py -f 0 -gn 0 -p MST \
       -tsd images/test \
-      -scw 0 0 0 0 0 0 0 0 0 0.5 0.5 0 0 0 0  \
+      -scw 0 0 0 0 0 0 0 0 0 0.5 0.5 0 0 0 0 0  \
 
 <p>
 <img src="result/tubingen_9_10.jpg", width="213" />
@@ -114,7 +143,7 @@ Multi Style
     ex) 0.33*style9 + 0.33*style10 + 0.33*style11
     python main.py -f 0 -gn 0 -p MST \
       -tsd images/test \
-      -scw 0 0 0 0 0 0 0 0 0 0.33 0.33 0.33 0 0 0  \
+      -scw 0 0 0 0 0 0 0 0 0 0.33 0.33 0.33 0 0 0 0  \
 
 <p>
 <img src="result/tubingen_9_10_11.jpg", width="213" />
