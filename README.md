@@ -13,7 +13,6 @@ These papers are fast and nice result, but one model make only one style image.
 
 
 ## Implementation Details
-
 #### Conditional instance normalization
 
 The key of this paper is Conditional instance normalization.
@@ -54,11 +53,6 @@ Paper's upsampling method is "Image_resize-Conv". But I use "Deconv-Pooling" bec
         x = conv_tranpose_layer(x, 32, 3, 2, style_control=style_control, name='up_conv2')
         x = pooling(x)
         ...
-
-## Usage
-Recommand to download project files [here (src, model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
-
-
 #### Style Control Weight (SCW)
 "-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16 ". 
 
@@ -75,9 +69,10 @@ If you want multi style
     0.2 * style1 + 0.3 * style2 + 0.4 * style3  -scw "0.2 0.3 0.4 ... 0 0 0" or "2 3 4 ... 0 0 0"
     1/16 * (style1 ~ style16)                   -scw "1 1 1 ... 1 1 1"
 
+## Usage
+Recommand to download project files [here (src, model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
 ### Train
-
 #### From Scratch.
 
     python main.py -f 1 -gn 0 -p MST -n 5 -b 16 \
@@ -91,8 +86,6 @@ Train weight, bias, gamma, beta.
 </p>
 (40000 iteration)
 
-
- 
 #### Fine-Tuned. 
 
     python main.py -f 1 -gn 0 -p MST -n 1 -b 16 \
@@ -121,6 +114,7 @@ if you want 32-style model change main.py
     1. parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16 --> 32)
     2. -scw 1 2 3 ... 30 31 32
 
+
 ### Test
 Single style
 
@@ -135,10 +129,11 @@ Multi Style
       -scw 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0  \
       
 
-### Requirements
+
+## Requirements
 - TensorFlow 1.0.0
 - Python 2.7.12, Pillow 3.4.2, scipy 0.18.1, numpy 1.11.2
 
-### Attributions/Thanks
+## Attributions/Thanks
 This project borrowed some code from [Lengstrom's fast-style-transfer.](https://github.com/lengstrom/fast-style-transfer)
 And Google brain's code is [here](https://github.com/tensorflow/magenta) (need some install)
