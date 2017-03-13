@@ -24,15 +24,16 @@ Conditional instance normalization have N scale(gamma) and N shift(beta). N mean
 This mean when you add new style, you just train new gamma and new beta.
 See the below results.
 
-From Scratch.
-Train weight, bias, gamma, beta
+### From Scratch.
+Train weight, bias, gamma, beta.
 <p>
 <img src="result/style01_01.gif" />
 </p>
 (40000 iteration)
 
-Fine-Tuned. Gradually change to new style.
-Train new gamma, beta.
+
+### Fine-Tuned. 
+Train only new gamma, beta. You can see that images gradually change to new style. 
 <p>
 <img src="result/style.jpg", width="852" />
 <img src="result/style02_01.gif" />
@@ -46,13 +47,61 @@ Train new gamma, beta.
 <img src="result/style10_01.gif" />
 <img src="result/style11_01.gif" />
 </p>
-(4000 iteration, 1/10 scratch)
+(Just 4000 iteration, 1/10 scratch)
+
+
+### Network
+Paper's upsampling method is "Image_resize-Conv". But I use "Deconv-Pooling" because when I trained SuperResolution network, Deconv-Pooling method gave me nice result.
 
 
 ## Usage
 Recommand to download project files [here (src, model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
-"-scw, --style_control_weights" is style control argument. If you want single style then set argument like "1 0 0 ... 0 0", "0 0 0 ... 0 0 1". If you want multi style then set argument like "0.5 0.5 0 ... 0 0", "0.3 0.3 0.3 ... 0 0", "1 1 1 1 ... 1 1 1" 
+The your working directory should looks like:
+
+    MST_tensorflow
+    ├── MST
+    │   ├── models (save or load tf model)
+    │   ├── test_result  (test result will save)
+    │   └── train_result (during training, train result images will save)
+    │
+    ├── images
+    │   ├── style
+    │   ├── style_crop (croped style images made by crop.py, 512x512)
+    │   ├── test (test images)
+    │   └── crop.py
+    │
+    ├── src
+    │   ├── __init__.py
+    │   ├── functions.py
+    │   ├── layers.py
+    │   ├── multi_style_transfer.py
+    │   ├── op.py
+    │   ├── vgg19.mat (you can download upper link)
+    │   └── vgg19.py
+    │
+    ├── main.py
+    ├── test_style.sh
+    └── train_style.sh
+
+
+
+"-scw, --style_control_weights" is style control argument. "0 0 0 0 ... 0 0 0 0 " means weight of "style1 style2 style3 ... style16 ". 
+
+
+If you want single style
+
+    example)
+    style1   -scw "1 0 0 ... 0 0 0"
+    style16  -scw "0 0 0 ... 0 0 1" 
+
+If you want multi style
+
+    example)
+    0.5 * (style1 + style2)                     -scw "0.5 0.5 0 ... 0 0 0" or "1 1 0 ... 0 0 0"
+    0.2 * style1 + 0.3 * style2 + 0.4 * style3  -scw "0.2 0.3 0.4 ... 0 0 0" or "2 3 4 ... 0 0 0"
+    1/16 * (style1 ~ style16)                   -scw "1 1 1 ... 1 1 1"
+
 
 ### Train
 
@@ -60,7 +109,7 @@ From Scratch
 
     python main.py -f 1 -gn 0 -p MST -n 5 -b 16 \
       -tsd images/test -sti images/style_crop/0_udnie.jpg \
-      -ctd "COCO dataset location" ## (example) -ctd /mnt/cloud/Data/COCO/train2014 \
+      -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
       
   
@@ -68,8 +117,15 @@ Fine-Tuned
 
     python main.py -f 1 -gn 0 -p MST -n 1 -b 16 \
       -tsd images/test -sti images/style_crop/1_la_muse.jpg \
-      -ctd "COCO dataset location" ## (example) -ctd /mnt/cloud/Data/COCO/train2014 \
+      -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
+      
+if you want 100-style model change main.py
+
+    parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16)
+    to
+    parser.add_argument("-scw", "--style_control_weights", type=float, nargs=100)
+    
 
   
 ### Test
@@ -78,7 +134,6 @@ Single style
     python main.py -f 0 -gn 0 -p MST \
       -tsd images/test \
       -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  \
-
 
 Multi Style
 
