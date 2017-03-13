@@ -33,16 +33,15 @@ If you want multi style
 ### Train
 #### From Scratch.
 
-    python main.py -f 1 -gn 0 -p MST -n 5 -b 16 \
+    python main.py -f 1 -gn 0 -p MST -n 10 -b 16 \
       -tsd images/test -sti images/style_crop/0_udnie.jpg \
       -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
 
-Train weight, bias, gamma, beta.
+Train weight, bias, gamma_0, beta_0. Need 40000 iteration (10 epoch)
 <p>
 <img src="result/style01_01.gif" />
 </p>
-(40000 iteration)
 
 #### Fine-Tuned. 
 
@@ -51,7 +50,9 @@ Train weight, bias, gamma, beta.
       -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
 
-Train only new gamma, beta. You can see that images gradually change to new style. 
+Train only gamma_i, beta_i. Just need 4000 iteration (1 epoch, 1/10 scratch)
+
+You can see that images gradually change to new style. 
 <p>
 <img src="result/style.jpg", width="865" />
 <img src="result/style02_01.gif" />
@@ -67,10 +68,10 @@ Train only new gamma, beta. You can see that images gradually change to new styl
 <img src="result/style12_01.gif" />
 <img src="result/style13_01.gif" />
 </p>
-(Just 4000 iteration, 1/10 scratch)
 
 
-if you want 32-style model change main.py and -scw lenght
+#### Number of style
+if you want to train 32-style model, edit main.py and -scw range (16 to 32)
 
     1. parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16 --> 32)
     2. -scw 1 2 3 ... 14 15 16  -->  -scw 1 2 3 ... 30 31 32
