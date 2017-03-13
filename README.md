@@ -68,10 +68,10 @@ Train only new gamma, beta. You can see that images gradually change to new styl
 (Just 4000 iteration, 1/10 scratch)
 
 
-if you want 32-style model change main.py
+if you want 32-style model change main.py and -scw lenght
 
     1. parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16 --> 32)
-    2. -scw 1 2 3 ... 30 31 32
+    2. -scw 1 2 3 ... 14 15 16  -->  -scw 1 2 3 ... 30 31 32
 
 
 ### Test
