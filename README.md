@@ -53,7 +53,7 @@ Train weight, bias, gamma, beta.
 
 Train only new gamma, beta. You can see that images gradually change to new style. 
 <p>
-<img src="result/style.jpg", width="852" />
+<img src="result/style.jpg", width="865" />
 <img src="result/style02_01.gif" />
 <img src="result/style03_01.gif" />
 <img src="result/style04_01.gif" />
