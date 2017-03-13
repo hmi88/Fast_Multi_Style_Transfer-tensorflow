@@ -34,6 +34,7 @@ Train weight, bias, gamma, beta
 Fine-Tuned. Gradually change to new style.
 Train new gamma, beta.
 <p>
+<img src="result/styles.jpg", width="852" />
 <img src="result/style02_01.gif" />
 <img src="result/style03_01.gif" />
 <img src="result/style04_01.gif" />
