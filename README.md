@@ -13,6 +13,9 @@ These papers are fast and nice result, but one model make only one style image.
 
 
 ## Implementation Details
+
+#### Conditional instance normalization
+
 The key of this paper is Conditional instance normalization.
 
 <p>
@@ -22,37 +25,35 @@ The key of this paper is Conditional instance normalization.
 Instance normalization is similar with batch normalization,but it doesn't accumulate mean(mu), variance(alpha).
 Conditional instance normalization have N scale(gamma) and N shift(beta). N means style number.
 This mean when you add new style, you just train new gamma and new beta.
-See the below results.
+See the below code.
 
-#### From Scratch.
-Train weight, bias, gamma, beta.
-<p>
-<img src="result/style01_01.gif" />
-</p>
-(40000 iteration)
+    def conditional_instance_norm:
+        ...
+        shift = []
+        scale = []
 
-
-#### Fine-Tuned. 
-Train only new gamma, beta. You can see that images gradually change to new style. 
-<p>
-<img src="result/style.jpg", width="852" />
-<img src="result/style02_01.gif" />
-<img src="result/style03_01.gif" />
-<img src="result/style04_01.gif" />
-<img src="result/style05_01.gif" />
-<img src="result/style06_01.gif" />
-<img src="result/style07_01.gif" />
-<img src="result/style08_01.gif" />
-<img src="result/style09_01.gif" />
-<img src="result/style10_01.gif" />
-<img src="result/style11_01.gif" />
-</p>
-(Just 4000 iteration, 1/10 scratch)
+        for i in range(len(style_control)):
+            with tf.variable_scope('{0}'.format(i) + '_style'):
+                shift.append(tf.get_variable('shift', shape=var_shape, initializer=tf.constant_initializer(0.)))
+                scale.append(tf.get_variable('scale', shape=var_shape, initializer=tf.constant_initializer(1.)))
+        ...
+        
+        idx = [i for i, x in enumerate(style_control) if not x == 0]
+        style_scale = reduce(tf.add, [scale[i]*style_control[i] for i in idx]) / sum(style_control)
+        style_shift = reduce(tf.add, [shift[i]*style_control[i] for i in idx]) / sum(style_control)
+        output = style_scale * normalized + style_shift
 
 
 #### Network
 Paper's upsampling method is "Image_resize-Conv". But I use "Deconv-Pooling" because when I trained SuperResolution network, Deconv-Pooling method gave me nice result.
-
+    
+    def mst_net:
+        ...
+        x = conv_tranpose_layer(x, 64, 3, 2, style_control=style_control, name='up_conv1')
+        x = pooling(x)
+        x = conv_tranpose_layer(x, 32, 3, 2, style_control=style_control, name='up_conv2')
+        x = pooling(x)
+        ...
 
 ## Usage
 Recommand to download project files [here (src, model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
@@ -77,21 +78,44 @@ If you want multi style
 
 ### Train
 
-From Scratch
+#### From Scratch.
 
     python main.py -f 1 -gn 0 -p MST -n 5 -b 16 \
       -tsd images/test -sti images/style_crop/0_udnie.jpg \
       -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
-      
-  
-Fine-Tuned
+
+Train weight, bias, gamma, beta.
+<p>
+<img src="result/style01_01.gif" />
+</p>
+(40000 iteration)
+
+
+ 
+#### Fine-Tuned. 
 
     python main.py -f 1 -gn 0 -p MST -n 1 -b 16 \
       -tsd images/test -sti images/style_crop/1_la_muse.jpg \
       -ctd /mnt/cloud/Data/COCO/train2014 \
       -scw 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \
-      
+
+Train only new gamma, beta. You can see that images gradually change to new style. 
+<p>
+<img src="result/style.jpg", width="852" />
+<img src="result/style02_01.gif" />
+<img src="result/style03_01.gif" />
+<img src="result/style04_01.gif" />
+<img src="result/style05_01.gif" />
+<img src="result/style06_01.gif" />
+<img src="result/style07_01.gif" />
+<img src="result/style08_01.gif" />
+<img src="result/style09_01.gif" />
+<img src="result/style10_01.gif" />
+<img src="result/style11_01.gif" />
+</p>
+(Just 4000 iteration, 1/10 scratch)
+
 if you want 32-style model change main.py
 
     1. parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16 --> 32)
