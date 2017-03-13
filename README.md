@@ -43,7 +43,7 @@ See the below code.
         output = style_scale * normalized + style_shift
 
 
-#### Network
+#### Upsampling
 Paper's upsampling method is "Image_resize-Conv". But I use ["Deconv-Pooling"](https://arxiv.org/abs/1611.04994)
     
     def mst_net:
