@@ -24,7 +24,7 @@ Conditional instance normalization have N scale(gamma) and N shift(beta). N mean
 This mean when you add new style, you just train new gamma and new beta.
 See the below results.
 
-### From Scratch.
+#### From Scratch.
 Train weight, bias, gamma, beta.
 <p>
 <img src="result/style01_01.gif" />
@@ -32,7 +32,7 @@ Train weight, bias, gamma, beta.
 (40000 iteration)
 
 
-### Fine-Tuned. 
+#### Fine-Tuned. 
 Train only new gamma, beta. You can see that images gradually change to new style. 
 <p>
 <img src="result/style.jpg", width="852" />
@@ -50,44 +50,16 @@ Train only new gamma, beta. You can see that images gradually change to new styl
 (Just 4000 iteration, 1/10 scratch)
 
 
-### Network
+#### Network
 Paper's upsampling method is "Image_resize-Conv". But I use "Deconv-Pooling" because when I trained SuperResolution network, Deconv-Pooling method gave me nice result.
 
 
 ## Usage
 Recommand to download project files [here (src, model, vgg, image, etc.)](https://1drv.ms/f/s!ArFpOdlDcjqQga8fwL0m4VQGmgKSfg). And Download [COCO](http://mscoco.org/dataset/#download) on your data folder. Example command lines are below and train_style.sh, test_style.sh.
 
-The your working directory should looks like:
 
-    MST_tensorflow
-    ├── MST
-    │   ├── models (save or load tf model)
-    │   ├── test_result  (test result will save)
-    │   └── train_result (during training, train result images will save)
-    │
-    ├── images
-    │   ├── style
-    │   ├── style_crop (croped style images made by crop.py, 512x512)
-    │   ├── test (test images)
-    │   └── crop.py
-    │
-    ├── src
-    │   ├── __init__.py
-    │   ├── functions.py
-    │   ├── layers.py
-    │   ├── multi_style_transfer.py
-    │   ├── op.py
-    │   ├── vgg19.mat (you can download upper link)
-    │   └── vgg19.py
-    │
-    ├── main.py
-    ├── test_style.sh
-    └── train_style.sh
-
-
-
-"-scw, --style_control_weights" is style control argument. "0 0 0 0 ... 0 0 0 0 " means weight of "style1 style2 style3 ... style16 ". 
-
+#### Style Control Weight (SCW)
+"-scw, --style_control_weights" is style control argument. "0 0 0 ... 0 0 0 " means weight of "style1 style2 ... style16 ". 
 
 If you want single style
 
@@ -122,10 +94,8 @@ Fine-Tuned
       
 if you want 100-style model change main.py
 
-    parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16)
-    to
-    parser.add_argument("-scw", "--style_control_weights", type=float, nargs=100)
-    
+    parser.add_argument("-scw", "--style_control_weights", type=float, nargs=16 --> 100)
+        
 
   
 ### Test
