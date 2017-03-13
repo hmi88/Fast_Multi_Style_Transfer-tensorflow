@@ -64,7 +64,7 @@ def conditional_instance_norm(net, style_control=None, name='cond_in'):
         shift = []
         scale = []
 
-        for i in range(16):
+        for i in range(len(style_control)):
             with tf.variable_scope('{0}'.format(i) + '_style'):
                 shift.append(tf.get_variable('shift', shape=var_shape, initializer=tf.constant_initializer(0.)))
                 scale.append(tf.get_variable('scale', shape=var_shape, initializer=tf.constant_initializer(1.)))
