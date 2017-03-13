@@ -31,13 +31,8 @@ Recommand to download [project files here (model, vgg, image, etc.)](https://1dr
     │       ├── test
     │       └── crop.py
     ├── src
-    │       ├── __init__.py
-    │       ├── functions.py
-    │       ├── layers.py
-    │       ├── multi_style_transfer.py
-    │       ├── op.py
-    │       ├── vgg19.mat
-    │       └── vgg19.py
+    │    ├── vgg19.mat
+    │    └── ...
     ├── main.py
     ├── test_style.sh
     └── train_style.sh
