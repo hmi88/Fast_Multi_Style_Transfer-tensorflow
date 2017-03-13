@@ -77,16 +77,45 @@ if you want 32-style model change main.py and -scw lenght
 ### Test
 Single style
 
+    ex) style9
     python main.py -f 0 -gn 0 -p MST \
       -tsd images/test \
-      -scw 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  \
+      -scw 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 
+
+<p>
+<img src="result/tubingen_9.jpg", width="213"/>
+</p>
+
+
+    ex) style10
+    python main.py -f 0 -gn 0 -p MST \
+      -tsd images/test \
+      -scw 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 
+
+<p>
+<img src="result/tubingen_10.jpg", width="213"/>
+</p>
+
 
 Multi Style
 
+    ex) 0.5*style9 + 0.5*style10
     python main.py -f 0 -gn 0 -p MST \
       -tsd images/test \
-      -scw 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0  \
-      
+      -scw 0 0 0 0 0 0 0 0 0 0.5 0.5 0 0 0 0  \
+
+<p>
+<img src="result/tubingen_9_10.jpg", width="213" />
+</p>
+
+    ex) 0.33*style9 + 0.33*style10 + 0.33*style11
+    python main.py -f 0 -gn 0 -p MST \
+      -tsd images/test \
+      -scw 0 0 0 0 0 0 0 0 0 0.33 0.33 0.33 0 0 0  \
+
+<p>
+<img src="result/tubingen_9_10_11.jpg", width="213" />
+</p>
 
 ## Implementation Details
 #### Conditional instance normalization
