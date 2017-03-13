@@ -44,7 +44,7 @@ See the below code.
 
 
 #### Network
-Paper's upsampling method is "Image_resize-Conv". But I use "Deconv-Pooling" because when I trained SuperResolution network, Deconv-Pooling method gave me nice result.
+Paper's upsampling method is "Image_resize-Conv". But I use ["Deconv-Pooling"](https://arxiv.org/abs/1611.04994)
     
     def mst_net:
         ...
