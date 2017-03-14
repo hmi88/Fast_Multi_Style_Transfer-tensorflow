@@ -19,10 +19,10 @@ Recommand to download [project files here (model, vgg, image, etc.)](https://1dr
     Working Directory
     ├── MST
     │   └── models
-    │       ├── checkpoint
-    │       ├── xxx.index
-    │       ├── xxx.data
-    |       └── xxxx.meta
+    │   │   ├── checkpoint
+    │   │   ├── xxx.index
+    │   │   ├── xxx.data
+    |   │   └── xxxx.meta
     │   ├── test_result
     │   └── train_result
     ├── images
@@ -102,7 +102,7 @@ if you want to train 32-style model, edit main.py and -scw range (16 to 32)
 
 
 ### Test
-Single style
+#### Single style
 
     ex) style9
     python main.py -f 0 -gn 0 -p MST \
@@ -124,7 +124,7 @@ Single style
 </p>
 
 
-Multi Style
+#### Multi Style
 
     ex) 0.5*style9 + 0.5*style10
     python main.py -f 0 -gn 0 -p MST \
