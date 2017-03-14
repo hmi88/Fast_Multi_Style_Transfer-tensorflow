@@ -18,7 +18,7 @@ Recommand to download [project files here (model, vgg, image, etc.)](https://1dr
 #### Project folder tree
     Working Directory
     ├── MST
-    │   └── models
+    │   ├── models
     │   │   ├── checkpoint
     │   │   ├── xxx.index
     │   │   ├── xxx.data
