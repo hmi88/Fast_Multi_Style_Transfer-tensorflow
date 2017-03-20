@@ -26,13 +26,13 @@ Recommand to download project files (model, vgg, image, etc.) [One drive](https:
     │   ├── test_result
     │   └── train_result
     ├── images
-    │       ├── style
-    │       ├── style_crop
-    │       ├── test
-    │       └── crop.py
+    │   ├── style
+    │   ├── style_crop
+    │   ├── test
+    │   └── crop.py
     ├── src
-    │    ├── vgg19.mat
-    │    └── ...
+    │   ├── vgg19.mat
+    │   └── ...
     ├── main.py
     ├── test_style.sh
     └── train_style.sh
